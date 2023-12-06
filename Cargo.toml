@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.0.19", features = ["derive"] }
 sscanf = "0.4.1"
+strum = { version = "0.25", features = ["derive"] }

@@ -4,8 +4,11 @@ use std::num::ParseIntError;
 
 #[derive(Debug)]
 pub enum GenericError {
+    BasicError(String),
     ParseIntError(ParseIntError),
     IOError(std::io::Error),
+    SscanfError(sscanf::Error),
+    StrumParseError(strum::ParseError),
 }
 
 impl From<ParseIntError> for GenericError {
@@ -20,13 +23,28 @@ impl From<std::io::Error> for GenericError {
     }
 }
 
+impl From<sscanf::Error> for GenericError {
+    fn from(e: sscanf::Error) -> Self {
+        Self::SscanfError(e)
+    }
+}
+
+impl From<strum::ParseError> for GenericError {
+    fn from(e: strum::ParseError) -> Self {
+        Self::StrumParseError(e)
+    }
+}
+
 impl Error for GenericError {}
 
 impl Display for GenericError {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
         match self {
+            Self::BasicError(e) => write!(f, "basic error: {}", e),
             Self::ParseIntError(e) => write!(f, "invalid integer: {}", e),
-            Self::IOError(e) => write!(f, "io error: {}", e)
+            Self::IOError(e) => write!(f, "io error: {}", e),
+            Self::SscanfError(e) => write!(f, "sscanf error: {}", e),
+            Self::StrumParseError(e) => write!(f, "strum parse error: {}", e),
         }
     }
 }
