@@ -20,7 +20,7 @@
                 }
             },
             "args": [
-                "--day=5"
+                "--day=6"
             ],
             "cwd": "${workspaceFolder}"
         },
@@ -41,7 +41,7 @@
                 }
             },
             "args": [
-                "implementations::day5::run_test_2",
+                "implementations::day6::run_test_2",
                 "--exact",
                 "--nocapture"
             ],

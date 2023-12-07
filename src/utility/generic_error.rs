@@ -1,11 +1,12 @@
 use std::error::Error;
 use std::fmt::{Display, Formatter, Error as FmtError};
-use std::num::ParseIntError;
+use std::num::{ParseIntError, ParseFloatError};
 
 #[derive(Debug)]
 pub enum GenericError {
     BasicError(String),
     ParseIntError(ParseIntError),
+    ParseFloatError(ParseFloatError),
     IOError(std::io::Error),
     SscanfError(sscanf::Error),
     StrumParseError(strum::ParseError),
@@ -14,6 +15,12 @@ pub enum GenericError {
 impl From<ParseIntError> for GenericError {
     fn from(e: ParseIntError) -> Self {
         Self::ParseIntError(e)
+    }
+}
+
+impl From<ParseFloatError> for GenericError {
+    fn from(e: ParseFloatError) -> Self {
+        Self::ParseFloatError(e)
     }
 }
 
@@ -42,6 +49,7 @@ impl Display for GenericError {
         match self {
             Self::BasicError(e) => write!(f, "basic error: {}", e),
             Self::ParseIntError(e) => write!(f, "invalid integer: {}", e),
+            Self::ParseFloatError(e) => write!(f, "invalid float: {}", e),
             Self::IOError(e) => write!(f, "io error: {}", e),
             Self::SscanfError(e) => write!(f, "sscanf error: {}", e),
             Self::StrumParseError(e) => write!(f, "strum parse error: {}", e),
